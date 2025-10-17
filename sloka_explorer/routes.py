@@ -5,7 +5,6 @@ from flask import Blueprint, Flask, abort, jsonify, send_file
 
 veda_bp = Blueprint("veda_bp", __name__)
 BASE_PATH = f"data/dataset"
-# Resolve audio folder to an absolute path: backend/data/audio
 _HERE = os.path.dirname(__file__)
 _AUDIO_ABS = os.path.abspath(os.path.join(_HERE, "..", "data", "audio"))
 AUDIO_FOLDER = _AUDIO_ABS
@@ -32,12 +31,11 @@ def get_index_for_mandala(mandala_num):
     if not mandala_info:
         abort(404, description="Mandala not found in index")
     
-    # Prepare summary of hymns and stanza counts
     hymns_summary = []
     for hymn in mandala_info.get('hymns', []):
         hymns_summary.append({
             'hymn_number': hymn.get('hymn_number'),
-            'total_stanzas': hymn.get('total_slokas')  # Assuming field name as per sample
+            'total_stanzas': hymn.get('total_slokas') 
         })
     return jsonify({
         'mandala': mandala_num,
@@ -66,6 +64,5 @@ def get_audio(mandala_num, hymn_num, stanza_num):
     audio_path = os.path.join(AUDIO_FOLDER, str(mandala_num), f"Hymn_{str(hymn_num)}", f"Stanza_{stanza_num}.mp3")
     if not os.path.exists(audio_path):
         return jsonify({'error': 'Audio file not found', 'path': audio_path}), 404
-    # Ensure correct mimetype for mp3
     return send_file(audio_path, mimetype='audio/mpeg')
 

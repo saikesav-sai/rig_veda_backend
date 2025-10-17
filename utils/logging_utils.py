@@ -9,7 +9,6 @@ from flask import request
 
 dotenv.load_dotenv()
 
-# Logtail configuration
 LOGTAIL_SOURCE_TOKEN = os.getenv("log_token")
 LOGTAIL_URL = "https://s1543114.eu-nbg-2.betterstackdata.com/"
 
@@ -21,16 +20,13 @@ def get_user_info():
     """
     try:
         user_info = {
-            # IP Address handling (supports proxies)
             "ip_address": request.headers.get('X-Forwarded-For', request.remote_addr),
             
-            # User Agent information
             "user_agent": request.headers.get('User-Agent', 'Unknown'),
         }
         
         return user_info
     except RuntimeError:
-        # Outside of request context
         return {
             "ip_address": "N/A",
             "user_agent": "N/A"
@@ -72,16 +68,13 @@ class RigVedaLogger:
                 "session_id": f"session_{datetime.now().strftime('%Y%m%d_%H')}",  # Hourly session grouping
             }
             
-            # Add user information if requested
             if include_user_info:
                 user_info = get_user_info()
                 log_data["user_info"] = user_info
             
-            # Add processing time if provided
             if processing_time is not None:
                 log_data["processing_time_ms"] = processing_time
             
-            # Add all additional context
             log_data.update(kwargs)
             
             headers = {
@@ -89,7 +82,6 @@ class RigVedaLogger:
                 "Content-Type": "application/json"
             }
             
-            # Send to Logtail (non-blocking, with timeout)
             response = requests.post(
                 LOGTAIL_URL, 
                 json=log_data, 
@@ -103,8 +95,7 @@ class RigVedaLogger:
                 print(f"⚠️ Logtail logging failed: {response.status_code}")
                 
         except Exception as e:
-            print(f"❌ Logtail logging error: {e}")
-            # Don't let logging errors break the main functionality
+            print(f" Logtail logging error: {e}")
 
     def log_search_request(self, 
                           query: str, 
@@ -287,7 +278,6 @@ class RigVedaLogger:
                                 success: bool = True,
                                 processing_time: Optional[float] = None) -> None:
         """Log chat bot interactions (backward compatibility)"""
-        # Parse generated answer for more details
         answer_summary = None
         answer_intent = None
         
@@ -296,12 +286,10 @@ class RigVedaLogger:
             answer_intent = generated_answer.get("intent_used", "")
             
         log_data = {
-            # Query Information
             "user_query": user_query,
             "query_length": len(user_query) if user_query else 0,
             "query_word_count": len(user_query.split()) if user_query else 0,
             
-            # Intent Analysis
             "extracted_intents": intents_list,
             "intent_count": len(intents_list) if intents_list else 0,
             "has_semantic_search": any(intent.get("intent") == "semantic_search" for intent in intents_list) if intents_list else False,
@@ -309,18 +297,15 @@ class RigVedaLogger:
             "has_asking_question": any(intent.get("intent") == "asking_question" for intent in intents_list) if intents_list else False,
             "has_other_question": any(intent.get("intent") == "other_question" for intent in intents_list) if intents_list else False,
             
-            # Context Information
             "context_length": len(final_context) if final_context else 0,
             "context_word_count": len(final_context.split()) if final_context else 0,
             "context_preview": final_context[:300] + "..." if final_context and len(final_context) > 300 else final_context,
             
-            # Generated Answer Information
             "answer_generated": generated_answer is not None,
             "answer_summary": answer_summary,
             "answer_intent_used": answer_intent,
             "answer_full": json.dumps(generated_answer, ensure_ascii=False)[:500] + "..." if generated_answer and len(str(generated_answer)) > 500 else generated_answer,
             
-            # Processing Information
             "processing_success": success,
         }
         

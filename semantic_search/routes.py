@@ -10,13 +10,10 @@ from sentence_transformers import SentenceTransformer
 from sloka_explorer.routes import get_sloka
 from utils.logging_utils import get_semantic_search_logger
 
-# Create blueprint
 semantic_search_bp = Blueprint('semantic_search', __name__, url_prefix='/api/semantic')
 
-# Initialize logger
 logger = get_semantic_search_logger()
 
-# Thread-safe singleton for search resources
 class SearchResources:
     _instance = None
     _lock = threading.Lock()
@@ -40,11 +37,9 @@ class SearchResources:
     def _load_components(self):
         """Load semantic search components using existing infrastructure"""
         try:
-            # Load the sentence transformer model
             print("Loading SentenceTransformer model for semantic search...")
             self.model = SentenceTransformer("BAAI/bge-base-en-v1.5")
             
-            # Load FAISS index
             faiss_index_path = "data/embeddings/FAISS_index/rigveda_all_slokas.index"
             if os.path.exists(faiss_index_path):
                 print("Loading FAISS index...")
@@ -52,7 +47,6 @@ class SearchResources:
             else:
                 raise Exception(f"FAISS index not found at {faiss_index_path}")
             
-            # Load slokas mapping
             slokas_mapping_path = "data/embeddings/FAISS_index/slokas_mapping.json"
             if os.path.exists(slokas_mapping_path):
                 print("Loading slokas mapping...")
@@ -70,7 +64,6 @@ class SearchResources:
             self._initialized = False
             raise e
 
-# Initialize resources at module load
 _search_resources = SearchResources()
 
 def get_sloka_details(mandala, hymn, sloka):
@@ -87,25 +80,20 @@ def get_sloka_details(mandala, hymn, sloka):
 
 def semantic_search(query, top_k=10):
     """Perform semantic search using existing infrastructure"""
-    # Get thread-safe resources
     resources = SearchResources()
     
     if not resources._initialized:
         raise Exception("Search components not properly loaded")
     
-    # Generate embedding for query (model operations are thread-safe)
     query_embedding = resources.model.encode([query])[0].astype("float32")
     
-    # Search FAISS index (read operations are thread-safe)
     distances, indices = resources.faiss_index.search(np.array([query_embedding]), top_k)
     
-    # Prepare results with detailed sloka information
     results = []
     for distance, idx in zip(distances[0], indices[0]):
         if idx < len(resources.slokas_list):
             sloka_info = resources.slokas_list[idx]
             
-            # Get detailed sloka information
             detailed_sloka = get_sloka_details(
                 sloka_info["mandala"], 
                 sloka_info["hymn_number"], 
@@ -113,14 +101,12 @@ def semantic_search(query, top_k=10):
             )
             
             if detailed_sloka:
-                # Add similarity score and basic info
                 detailed_sloka['similarity_score'] = float(distance)
                 detailed_sloka['mandala'] = sloka_info["mandala"]
                 detailed_sloka['hymn_number'] = sloka_info["hymn_number"]
                 detailed_sloka['sloka_number'] = sloka_info["sloka_number"]
                 results.append(detailed_sloka)
             else:
-                # Fallback to basic info if detailed fetch fails
                 results.append({
                     'location': f"{sloka_info['mandala']:02d}.{sloka_info['hymn_number']:03d}.{sloka_info['sloka_number']:02d}",
                     'mandala': sloka_info["mandala"],
@@ -154,16 +140,12 @@ def search():
             )
             return jsonify({'error': 'Query is required'}), 400
         
-        # Perform search (resources are loaded via singleton)
         results = semantic_search(query, top_k)
         
-        # Calculate processing time
         processing_time = (datetime.now() - start_time).total_seconds() * 1000
         
-        # Extract similarity scores for logging
         similarity_scores = [result.get('similarity_score') for result in results if 'similarity_score' in result]
         
-        # Log successful search
         logger.log_search_request(
             query=query,
             results_count=len(results),
@@ -203,12 +185,10 @@ def random_verses():
     start_time = datetime.now()
     
     try:
-        # Get thread-safe resources
         resources = SearchResources()
         
         import random
 
-        # Get random slokas and fetch their detailed information
         requested_count = 10
         available_count = min(requested_count, len(resources.slokas_list))
         random_indices = random.sample(range(len(resources.slokas_list)), available_count)
@@ -228,10 +208,8 @@ def random_verses():
                 detailed_sloka['sloka_number'] = sloka_info["sloka_number"]
                 random_results.append(detailed_sloka)
         
-        # Calculate processing time
         processing_time = (datetime.now() - start_time).total_seconds() * 1000
         
-        # Log successful random request
         logger.log_random_request(
             requested_count=requested_count,
             returned_count=len(random_results),
@@ -249,7 +227,6 @@ def random_verses():
         processing_time = (datetime.now() - start_time).total_seconds() * 1000
         error_msg = str(e)
         
-        # Log failed random request
         logger.log_random_request(
             requested_count=10,
             returned_count=0,
@@ -267,7 +244,6 @@ def status():
     start_time = datetime.now()
     
     try:
-        # Get thread-safe resources
         resources = SearchResources()
         is_ready = resources._initialized
         
@@ -279,10 +255,8 @@ def status():
             'total_verses': len(resources.slokas_list) if hasattr(resources, 'slokas_list') and resources.slokas_list else 0
         }
         
-        # Calculate processing time
         processing_time = (datetime.now() - start_time).total_seconds() * 1000
         
-        # Log status check
         logger.log_status_check(
             component_status=component_status,
             processing_time=processing_time,
@@ -295,7 +269,6 @@ def status():
         processing_time = (datetime.now() - start_time).total_seconds() * 1000
         error_msg = str(e)
         
-        # Log failed status check
         logger.log_status_check(
             component_status={'ready': False, 'error': error_msg},
             processing_time=processing_time,
@@ -304,4 +277,3 @@ def status():
         
         return jsonify({'error': error_msg, 'ready': False}), 500
 
-# Resources are automatically initialized via singleton pattern when first accessed

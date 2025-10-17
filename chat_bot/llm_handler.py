@@ -59,30 +59,8 @@ def get_answer(user_query: str):
     slokas_with_meaning = []
     
     intents = extract_intents_gemini(user_query)
-    # intents= {
-    #     "intents": [
-    #     { 
-    #         "hymn": 1,
-    #         "intent": "fetch_by_location",
-    #         "keywords": "meaning",
-    #         "mandala": 1,
-    #         "question": "I want the meaning for sloka 1.20.5",
-    #         "sloka": 5
-    #     },
-    #     {
-    #          "hymn": 1,
-    #         "intent": "asking_question",
-    #         "keywords": "meaning",
-    #         "mandala": 1,
-    #         "question": "what is the role of the god in the sloka",
-    #         "sloka": 5
-    #     }
-    # ]
-
-    # }
     
     if "error" in intents:
-        # Log error case
         processing_time = (datetime.now() - start_time).total_seconds() * 1000
         logger.log_chat_bot_interaction(user_query, "", [], None, success=False, processing_time=processing_time)
         return {"Message": "Error in intent extraction", "error": intents["error"]}
@@ -90,27 +68,22 @@ def get_answer(user_query: str):
     intents_list = intents.get("intents", [])
     print("Extracted intents:", intents_list)
 
-    # Step 2: Check for 'other_question'
     for intent_obj in intents_list:
         if intent_obj["intent"] == "other_question":
-            # Log unrelated question
             processing_time = (datetime.now() - start_time).total_seconds() * 1000
             logger.log_chat_bot_interaction(user_query, f"Intent: {intents_list}", intents_list, None, success=False, processing_time=processing_time)
             return {"Message": "Sorry, I can only answer questions related to the Rig Veda.","error": "unrelated question"}
 
 
-    # Step 3: Fetch slokas by location
     for intent_obj in intents_list:
         if intent_obj["intent"] == "fetch_by_location":
 
-            # Extract mandala, hymn, sloka
             mandala = intent_obj.get("mandala")
             hymn = intent_obj.get("hymn")
             sloka = intent_obj.get("sloka")
 
-            meaning  = sloka_search(mandala, hymn, sloka) #meaning contains keys location, sanskrit, meaning
+            meaning  = sloka_search(mandala, hymn, sloka)
             if "error" in meaning:
-                # Log sloka fetch error but continue processing
                 processing_time = (datetime.now() - start_time).total_seconds() * 1000
                 print(f"Error fetching sloka {mandala}.{hymn}.{sloka}: {meaning['error']}")
                 return {"Message": "Error fetching sloka", "error": meaning["error"]}
@@ -146,11 +119,9 @@ def get_answer(user_query: str):
     # Step 6: Generate final answer from LLM
     final_answer = generate_llm_answer(final_context, user_query)
 
-    # Calculate processing time
     processing_time = (datetime.now() - start_time).total_seconds() * 1000
 
     if "error" in final_answer:
-        # Log error case with full context and failed answer
         logger.log_chat_bot_interaction(user_query, final_context, intents_list, final_answer, success=False, processing_time=processing_time)
         return {"Message": "Error in generating answer", "error": final_answer["error"]}
 
@@ -179,10 +150,8 @@ def extract_intents_gemini(user_query: str):
     
     
 
-    # Prompt asking for JSON with multiple intents
     prompt_text =f"{PROMPT} {user_query}"
 
-    # print("Prompt text for Gemini API:", prompt_text)
 
     payload = {
         "contents": [
@@ -196,18 +165,14 @@ def extract_intents_gemini(user_query: str):
         response = requests.post(url, headers=headers, json=payload)
         response.raise_for_status()
         data = response.json()
-        # print("Gemini response data:", data)
         generated_text = data["candidates"][0]["content"]["parts"][0]["text"]
 
-        # Clean triple backticks if present
         if generated_text.startswith("```"):
             generated_text = generated_text.strip("`")
-        # remove the word json if it is there
         if generated_text.lower().startswith("json"):
             generated_text = generated_text[4:].strip()
             
         print()
-        # print("Generated text:", generated_text)
         print("Intent extraction completed")
         res=json.loads(generated_text)
 
@@ -220,21 +185,17 @@ def extract_intents_gemini(user_query: str):
 
 def is_valid_number(mandala: int, hymn: int, sloka: int):
     # print("Validating mandala, hymn, sloka:", mandala, hymn, sloka)
-    # Load the entire mandalas data
     with open("data/rig_veda_index.json", "r", encoding="utf-8") as f:
         data = json.load(f)
  
-    # Find the mandala data
     mandala_data = next((m for m in data['mandalas'] if m["mandala_number"] == mandala), None)
     if not mandala_data:
-        return False  # Mandala not found
+        return False  
 
-    # Check if hymn exists within the mandala
     hymn_data = next((h for h in mandala_data['hymns'] if h["hymn_number"] == hymn), None)
     if not hymn_data:
-        return False  # Hymn not found
+        return False  
 
-    # Now validate sloka
     if not (1 <= sloka <= hymn_data.get('total_slokas', 0)):
         return False
     return True
@@ -246,7 +207,6 @@ def sloka_search(mandala: int, hymn: int, sloka: int):
     if not is_valid_number(mandala, hymn, sloka):
         return {"error": f"Invalid mandala, hymn, or sloka number: {mandala}, {hymn}, {sloka}"}
 
-    # Using function from sloka_explorer to get sloka details
     sloka_entry = get_sloka(mandala, hymn, sloka)
     sloka_entry = sloka_entry.get_json() if sloka_entry else None
 
@@ -268,10 +228,8 @@ def semantic_search_slokas(search_string: str):
     resources = EmbeddingResources()
 
     def get_top_slokas(query_text, k):
-        # Convert query to embedding (model operations are thread-safe in sentence-transformers)
         query_embedding = resources.model.encode([query_text])[0].astype("float32")
         
-        # Search FAISS index (read operations are thread-safe)
         distances, indices = resources.index.search(np.array([query_embedding]), k)
         
         results = []
@@ -293,7 +251,6 @@ def semantic_search_slokas(search_string: str):
         sloka_num = sloka["sloka_number"]
         sloka_meaning = sloka_search(mandala, hymn, sloka_num)
         
-        #checking if the sloka number is real
         if "error" in sloka_meaning:
             print(f"Error fetching meaning for Mandala {mandala}, Hymn {hymn}, Sloka {sloka_num}: {sloka_meaning['error']}")
             continue
@@ -330,10 +287,8 @@ def generate_llm_answer(context: str, user_query: str):
         data = response.json()
         # print("Gemini response data:", data)
         generated_text = data["candidates"][0]["content"]["parts"][0]["text"]
-         # Clean triple backticks if present
         if generated_text.startswith("```"):
             generated_text = generated_text.strip("`")
-        # remove the word json if it is there
         if generated_text.lower().startswith("json"):
             generated_text = generated_text[4:].strip()
         res=generated_text

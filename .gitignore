@@ -2,3 +2,4 @@
 chat_bot/extracting_intents.txt
 chat_bot/summarization_prompt.txt
 data/audio
+*.pyc
