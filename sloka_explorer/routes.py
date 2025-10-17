@@ -1,13 +1,19 @@
 import json
 import os
+from io import BytesIO
 
-from flask import Blueprint, Flask, abort, jsonify, send_file
+import requests
+from flask import Blueprint, Flask, Response, abort, jsonify, send_file
 
 veda_bp = Blueprint("veda_bp", __name__)
 BASE_PATH = f"data/dataset"
-_HERE = os.path.dirname(__file__)
-_AUDIO_ABS = os.path.abspath(os.path.join(_HERE, "..", "data", "audio"))
-AUDIO_FOLDER = _AUDIO_ABS
+
+# GitHub raw content base URL for audio files
+GITHUB_AUDIO_BASE_URL = "https://raw.githubusercontent.com/saikesav-sai/rig_veda_audio_files/main"
+
+# Optional: Local cache directory for downloaded audio files
+CACHE_DIR = os.path.join(os.path.dirname(__file__), "..", "cache", "audio")
+os.makedirs(CACHE_DIR, exist_ok=True)
 
 def load_index():
     index_path = os.path.join(BASE_PATH, 'rig_veda_index.json')
@@ -61,8 +67,52 @@ def get_sloka(mandala_num, hymn_num, stanza_num):
 
 @veda_bp.route('/api/audio/<int:mandala_num>/<int:hymn_num>/<int:stanza_num>')
 def get_audio(mandala_num, hymn_num, stanza_num):
-    audio_path = os.path.join(AUDIO_FOLDER, str(mandala_num), f"Hymn_{str(hymn_num)}", f"Stanza_{stanza_num}.mp3")
-    if not os.path.exists(audio_path):
-        return jsonify({'error': 'Audio file not found', 'path': audio_path}), 404
-    return send_file(audio_path, mimetype='audio/mpeg')
+    """
+    Serve audio files from GitHub repository with local caching
+    """
+    # Construct the GitHub URL path
+    audio_filename = f"Stanza_{stanza_num}.mp3"
+    github_path = f"{GITHUB_AUDIO_BASE_URL}/{mandala_num}/Hymn_{hymn_num}/{audio_filename}"
+    
+    # Check if file exists in local cache
+    cache_file_path = os.path.join(CACHE_DIR, str(mandala_num), f"Hymn_{hymn_num}", audio_filename)
+    
+    # If cached, serve from cache
+    if os.path.exists(cache_file_path):
+        return send_file(cache_file_path, mimetype='audio/mpeg')
+    
+    # Otherwise, fetch from GitHub
+    try:
+        response = requests.get(github_path, timeout=10)
+        
+        if response.status_code == 404:
+            return jsonify({
+                'error': 'Audio file not found',
+                'mandala': mandala_num,
+                'hymn': hymn_num,
+                'stanza': stanza_num,
+                'github_url': github_path
+            }), 404
+        
+        response.raise_for_status()
+        
+        # Cache the file for future requests
+        os.makedirs(os.path.dirname(cache_file_path), exist_ok=True)
+        with open(cache_file_path, 'wb') as f:
+            f.write(response.content)
+        
+        # Serve the file
+        return send_file(
+            BytesIO(response.content),
+            mimetype='audio/mpeg',
+            as_attachment=False,
+            download_name=audio_filename
+        )
+        
+    except requests.RequestException as e:
+        return jsonify({
+            'error': 'Failed to fetch audio file from GitHub',
+            'details': str(e),
+            'github_url': github_path
+        }), 500
 

@@ -1,0 +1,82 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+README.md
+LICENSE
+
+# Tests
+tests/
+test_*.py
+*_test.py
+pytest.ini
+.pytest_cache/
+
+# Logs
+logs/
+*.log
+
+# Cache directory (audio files downloaded at runtime)
+cache/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Docker files (don't need in image)
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Development files
+.env.example
+.env.local
+.env.development
+
+# IMPORTANT: Exclude large data files
+# Audio files are now served from GitHub, no need to include in image
+data/audio/
+data/audio/**
+*.mp3
+*.wav
+
+# Large dataset files (keep only essentials)
+# data/dataset/*.json
+
+# Testing files
+chat_bot/testing.py
+
+# Build artifacts
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
