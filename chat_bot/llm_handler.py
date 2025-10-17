@@ -34,7 +34,7 @@ class EmbeddingResources:
             
         with self._lock:
             if not self._initialized:
-                print("Loading embedding resources (one-time initialization)...")
+                # print("Loading embedding resources (one-time initialization)...")
                 self.model = SentenceTransformer("BAAI/bge-base-en-v1.5")
                 self.index = faiss.read_index("data/embeddings/FAISS_index/rigveda_all_slokas.index")
                 with open("data/embeddings/FAISS_index/slokas_mapping.json", "r", encoding="utf-8") as f:
@@ -66,7 +66,7 @@ def get_answer(user_query: str):
         return {"Message": "Error in intent extraction", "error": intents["error"]}
 
     intents_list = intents.get("intents", [])
-    print("Extracted intents:", intents_list)
+    # print("Extracted intents:", intents_list)
 
     for intent_obj in intents_list:
         if intent_obj["intent"] == "other_question":
@@ -85,11 +85,11 @@ def get_answer(user_query: str):
             meaning  = sloka_search(mandala, hymn, sloka)
             if "error" in meaning:
                 processing_time = (datetime.now() - start_time).total_seconds() * 1000
-                print(f"Error fetching sloka {mandala}.{hymn}.{sloka}: {meaning['error']}")
+                # print(f"Error fetching sloka {mandala}.{hymn}.{sloka}: {meaning['error']}")
                 return {"Message": "Error fetching sloka", "error": meaning["error"]}
             
             slokas_with_meaning.extend(meaning)
-            print("Slokas fetched by location")
+            # print("Slokas fetched by location")
 
 
     # Step 4: Semantic search
@@ -99,8 +99,8 @@ def get_answer(user_query: str):
             
             meaning= semantic_search_slokas(keywords)
             slokas_with_meaning.extend(meaning)
-            print("Slokas fetched by semantic search")
-            
+            # print("Slokas fetched by semantic search")
+
     # print("All fetched slokas with meaning:", slokas_with_meaning)
 
     # Step 5: Prepare final context for LLM
@@ -136,7 +136,7 @@ def get_answer(user_query: str):
 
 
 def extract_intents_gemini(user_query: str):
-    print("Intent extraction started")
+    # print("Intent extraction started")
 
     if not user_query:
         return {"error": "Empty query"}
@@ -145,7 +145,7 @@ def extract_intents_gemini(user_query: str):
         PROMPT = f.read()
         
     if not API_KEY or not PROMPT:
-        print("Gemini API key or prompt not set.")
+        # print("Gemini API key or prompt not set.")
         return {"error": "Gemini API key or prompt not set."}
     
     
@@ -172,14 +172,13 @@ def extract_intents_gemini(user_query: str):
         if generated_text.lower().startswith("json"):
             generated_text = generated_text[4:].strip()
             
-        print()
-        print("Intent extraction completed")
+        # print("Intent extraction completed")
         res=json.loads(generated_text)
 
         return res
 
     except Exception as e:
-        print("Gemini intent extraction failed:", e)
+        # print("Gemini intent extraction failed:", e)
         return {"error": "Error in intent extraction", "error": str(e)}
 
 
@@ -222,7 +221,7 @@ def sloka_search(mandala: int, hymn: int, sloka: int):
     
 def semantic_search_slokas(search_string: str):
     all_meaning = []
-    print("Performing semantic search for:", search_string)
+    # print("Performing semantic search for:", search_string)
     
     # Get thread-safe resources
     resources = EmbeddingResources()
@@ -252,11 +251,11 @@ def semantic_search_slokas(search_string: str):
         sloka_meaning = sloka_search(mandala, hymn, sloka_num)
         
         if "error" in sloka_meaning:
-            print(f"Error fetching meaning for Mandala {mandala}, Hymn {hymn}, Sloka {sloka_num}: {sloka_meaning['error']}")
+            # print(f"Error fetching meaning for Mandala {mandala}, Hymn {hymn}, Sloka {sloka_num}: {sloka_meaning['error']}")
             continue
 
         all_meaning.extend(sloka_meaning)
-    print("All slokas are fetched")
+    # print("All slokas are fetched")
 
     return all_meaning
 
@@ -265,13 +264,13 @@ def generate_llm_answer(context: str, user_query: str):
     res=""
 
     if not API_KEY or not context:
-        print("Gemini API key or context not set.")
+        # print("Gemini API key or context not set.")
         return "Sorry, I cannot provide an answer at this time."
     
     with open("chat_bot/summarization_prompt.txt", "r", encoding="utf-8") as f:
         PROMPT = f.read()
         
-    print("method started for final answer generation")
+    # print("method started for final answer generation")
     prompt_text =f"{PROMPT}  User question: {user_query} Context: {context} "
     # print("Prompt text for final answer:", prompt_text)
     payload = {
@@ -292,10 +291,10 @@ def generate_llm_answer(context: str, user_query: str):
         if generated_text.lower().startswith("json"):
             generated_text = generated_text[4:].strip()
         res=generated_text
-        print("Generated final answer")
+        # print("Generated final answer")
         return json.loads(res)
 
     except Exception as e:
-        print("Gemini final answer generation failed:", e)
+        # print("Gemini final answer generation failed:", e)
         return {"error": "Error in generating answer", "error": str(e)}
     

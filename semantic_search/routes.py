@@ -37,30 +37,30 @@ class SearchResources:
     def _load_components(self):
         """Load semantic search components using existing infrastructure"""
         try:
-            print("Loading SentenceTransformer model for semantic search...")
+            # print("Loading SentenceTransformer model for semantic search...")
             self.model = SentenceTransformer("BAAI/bge-base-en-v1.5")
             
             faiss_index_path = "data/embeddings/FAISS_index/rigveda_all_slokas.index"
             if os.path.exists(faiss_index_path):
-                print("Loading FAISS index...")
+                # print("Loading FAISS index...")
                 self.faiss_index = faiss.read_index(faiss_index_path)
             else:
                 raise Exception(f"FAISS index not found at {faiss_index_path}")
             
             slokas_mapping_path = "data/embeddings/FAISS_index/slokas_mapping.json"
             if os.path.exists(slokas_mapping_path):
-                print("Loading slokas mapping...")
+                # print("Loading slokas mapping...")
                 with open(slokas_mapping_path, "r", encoding="utf-8") as f:
                     self.slokas_list = json.load(f)
             else:
                 raise Exception(f"Slokas mapping not found at {slokas_mapping_path}")
             
             self._initialized = True
-            print("✅ Semantic search components loaded successfully!")
-            print(f"📊 Total indexed slokas: {len(self.slokas_list)}")
+            # print("✅ Semantic search components loaded successfully!")
+            # print(f"📊 Total indexed slokas: {len(self.slokas_list)}")
             
         except Exception as e:
-            print(f"❌ Error loading semantic search components: {e}")
+            # print(f"❌ Error loading semantic search components: {e}")
             self._initialized = False
             raise e
 
@@ -75,7 +75,7 @@ def get_sloka_details(mandala, hymn, sloka):
             return sloka_data
         return None
     except Exception as e:
-        print(f"Error fetching sloka details: {e}")
+        # print(f"Error fetching sloka details: {e}")
         return None
 
 def semantic_search(query, top_k=10):
@@ -176,7 +176,7 @@ def search():
             error_message=error_msg
         )
         
-        print(f"Search error: {e}")
+        # print(f"Search error: {e}")
         return jsonify({'error': error_msg}), 500
 
 @semantic_search_bp.route('/random', methods=['GET'])
@@ -235,7 +235,7 @@ def random_verses():
             error_message=error_msg
         )
         
-        print(f"Random verses error: {e}")
+        # print(f"Random verses error: {e}")
         return jsonify({'error': error_msg}), 500
 
 @semantic_search_bp.route('/status', methods=['GET'])

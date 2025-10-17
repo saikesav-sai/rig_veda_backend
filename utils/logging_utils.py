@@ -89,10 +89,10 @@ class RigVedaLogger:
                 timeout=5
             )
             
-            if response.status_code == 202:
-                print(f"✅ Successfully logged {event_type} to Logtail")
-            else:
-                print(f"⚠️ Logtail logging failed: {response.status_code}")
+        #     if response.status_code == 202:
+        #         print(f"✅ Successfully logged {event_type} to Logtail")
+        #     else:
+        #         print(f"⚠️ Logtail logging failed: {response.status_code}")
                 
         except Exception as e:
             print(f" Logtail logging error: {e}")
