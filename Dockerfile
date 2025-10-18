@@ -85,13 +85,11 @@ EXPOSE 8008
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
 ENV FLASK_APP=app.py
-ENV CLOUDFLARE_TUNNEL_TOKEN=eyJhIjoiOGJlNWJkYzMzYjZiNDQ0MTI3YjUwMzBlZjQyNTJlZTAiLCJ0IjoiOTI0YmJiOGMtMTE2ZC00ZjVjLWIyY2QtMmYyZTA2ZjU2NDhmIiwicyI6IllqWTJOV1ZpTlRNdE5qQTJZaTAwWTJNNUxUazBPVGd0TkRNME5UUTNPV1prWkdSaiJ9
+ENV RUN_TUNNEL=false
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
     CMD python -c "import requests; requests.get('http://localhost:8008/', timeout=5)" || exit 1
 
-# Run Flask app and Cloudflare tunnel together
-CMD sh -c "gunicorn --worker-class gevent --workers 1 --bind 0.0.0.0:8008 app:app & \
-           sleep 10 && \
-           cloudflared tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}"
+# Run Flask app (tunnel handled separately if needed)
+CMD ["gunicorn", "--worker-class", "gevent", "--workers", "1", "--bind", "0.0.0.0:8008", "app:app"]

@@ -57,7 +57,7 @@ class SearchResources:
                 raise Exception(f"Slokas mapping not found at {slokas_mapping_path}")
             
             self._initialized = True
-            # print("✅ Semantic search components loaded successfully!")
+            print("✅ Semantic search components loaded successfully!")
             # print(f"📊 Total indexed slokas: {len(self.slokas_list)}")
             
         except Exception as e:
