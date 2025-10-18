@@ -38,7 +38,8 @@ class SearchResources:
         """Load semantic search components using existing infrastructure"""
         try:
             # print("Loading SentenceTransformer model for semantic search...")
-            self.model = SentenceTransformer("BAAI/bge-base-en-v1.5")
+            #old model BAAI/bge-base-en-v1.5
+            self.model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
             
             faiss_index_path = "data/embeddings/FAISS_index/rigveda_all_slokas.index"
             if os.path.exists(faiss_index_path):
@@ -72,6 +73,7 @@ def get_sloka_details(mandala, hymn, sloka):
         sloka_response = get_sloka(mandala, hymn, sloka)
         if sloka_response:
             sloka_data = sloka_response.get_json() if hasattr(sloka_response, 'get_json') else sloka_response
+            # print(sloka_data)
             return sloka_data
         return None
     except Exception as e:
@@ -93,15 +95,21 @@ def semantic_search(query, top_k=10):
     for distance, idx in zip(distances[0], indices[0]):
         if idx < len(resources.slokas_list):
             sloka_info = resources.slokas_list[idx]
-            
             detailed_sloka = get_sloka_details(
                 sloka_info["mandala"], 
                 sloka_info["hymn_number"], 
                 sloka_info["sloka_number"]
             )
             
+            # Convert distance to similarity score (0-1 range, higher is better)
+            # Using exponential decay: similarity = e^(-distance)
+            # For typical distances (0.5-2.0), this gives good 0-1 range
+            import math
+            similarity = math.exp(-distance)
+            
             if detailed_sloka:
-                detailed_sloka['similarity_score'] = float(distance)
+                detailed_sloka['similarity_score'] = float(similarity)
+                detailed_sloka['distance'] = float(distance)  # Keep original for debugging
                 detailed_sloka['mandala'] = sloka_info["mandala"]
                 detailed_sloka['hymn_number'] = sloka_info["hymn_number"]
                 detailed_sloka['sloka_number'] = sloka_info["sloka_number"]
@@ -113,7 +121,8 @@ def semantic_search(query, top_k=10):
                     'hymn_number': sloka_info["hymn_number"],
                     'sloka_number': sloka_info["sloka_number"],
                     'sanskrit': sloka_info.get("text", ""),
-                    'similarity_score': float(distance)
+                    'similarity_score': float(similarity),
+                    'distance': float(distance)
                 })
     
     return results

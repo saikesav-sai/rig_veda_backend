@@ -20,7 +20,7 @@ CORS(app, resources={
         "supports_credentials": False
     }
 })
-
+ 
 # Enable thread safety for Flask
 app.config['THREADED'] = True
 
@@ -34,6 +34,10 @@ app.register_blueprint(semantic_search_bp)
 def home():
     return "Welcome to the Veda Explorer API"
 
+@app.route('/favicon.ico')
+def favicon():
+    return '', 204  
+
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=8008)
+    app.run(host='0.0.0.0', port=8008,debug=True)
  

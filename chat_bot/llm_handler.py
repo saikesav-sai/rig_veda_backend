@@ -2,6 +2,7 @@ import json
 import os
 import threading
 from datetime import datetime
+
 import dotenv
 import faiss
 import numpy as np
@@ -35,13 +36,13 @@ class EmbeddingResources:
         with self._lock:
             if not self._initialized:
                 # print("Loading embedding resources (one-time initialization)...")
-                self.model = SentenceTransformer("BAAI/bge-base-en-v1.5")
+                # old model "BAAI/bge-base-en-v1.5"
+                self.model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
                 self.index = faiss.read_index("data/embeddings/FAISS_index/rigveda_all_slokas.index")
                 with open("data/embeddings/FAISS_index/slokas_mapping.json", "r", encoding="utf-8") as f:
                     self.slokas_list = json.load(f)
                 self._initialized = True
-                print("✅ Embedding resources loaded successfully!")
-
+                # print("✅ Embedding resources loaded successfully!") 
 API_KEY = os.getenv("gem_api_key")
 MODEL_NAME = "gemini-2.5-flash"  # or "gemini-2.5-pro"
 url = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL_NAME}:generateContent?key={API_KEY}"

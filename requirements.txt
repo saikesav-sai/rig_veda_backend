@@ -4,7 +4,8 @@ flask-cors==4.0.0
 
 # Environment
 python-dotenv==1.0.0
-
+gunicorn==22.0.0
+gevent==24.2.1
 # HTTP Client
 requests==2.31.0
 

@@ -6,3 +6,5 @@ cache/
 **/*.pyc
 **/__pycache__/
 logs/
+Dockerfile
+docker-compose.yml
