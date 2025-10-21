@@ -1,9 +1,7 @@
-import json
-import os
+import json,os,requests
 from io import BytesIO
-
-import requests
-from flask import Blueprint, Flask, Response, abort, jsonify, send_file
+from flask import Blueprint, abort, jsonify, send_file
+from middleware import require_api_key
 
 veda_bp = Blueprint("veda_bp", __name__)
 BASE_PATH = f"data/dataset"
@@ -30,6 +28,7 @@ def load_mandala(mandala_num):
 
 
 @veda_bp.route('/api/index/<int:mandala_num>')
+@require_api_key
 def get_index_for_mandala(mandala_num):
     index = load_index()
     mandalas = index.get('mandalas', [])
@@ -50,6 +49,7 @@ def get_index_for_mandala(mandala_num):
     })
  
 @veda_bp.route('/api/sloka/<int:mandala_num>/<int:hymn_num>/<int:stanza_num>')
+@require_api_key
 def get_sloka(mandala_num, hymn_num, stanza_num):
     mandala_data = load_mandala(mandala_num)
     if not mandala_data:
@@ -70,14 +70,11 @@ def get_audio(mandala_num, hymn_num, stanza_num):
     """
     Serve audio files from GitHub repository with local caching
     """
-    # Construct the GitHub URL path
     audio_filename = f"Stanza_{stanza_num}.mp3"
     github_path = f"{GITHUB_AUDIO_BASE_URL}/{mandala_num}/Hymn_{hymn_num}/{audio_filename}"
     
-    # Check if file exists in local cache
     cache_file_path = os.path.join(CACHE_DIR, str(mandala_num), f"Hymn_{hymn_num}", audio_filename)
     
-    # If cached, serve from cache
     if os.path.exists(cache_file_path):
         return send_file(cache_file_path, mimetype='audio/mpeg')
     
@@ -96,12 +93,10 @@ def get_audio(mandala_num, hymn_num, stanza_num):
         
         response.raise_for_status()
         
-        # Cache the file for future requests
         os.makedirs(os.path.dirname(cache_file_path), exist_ok=True)
         with open(cache_file_path, 'wb') as f:
             f.write(response.content)
         
-        # Serve the file
         return send_file(
             BytesIO(response.content),
             mimetype='audio/mpeg',

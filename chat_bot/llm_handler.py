@@ -1,12 +1,5 @@
-import json
-import os
-import threading
+import json,os,threading,dotenv,faiss,numpy as np,requests 
 from datetime import datetime
-
-import dotenv
-import faiss
-import numpy as np
-import requests
 from sentence_transformers import SentenceTransformer
 from sloka_explorer.routes import get_sloka
 from utils.logging_utils import get_chat_bot_logger
@@ -16,7 +9,6 @@ dotenv.load_dotenv()
 logger = get_chat_bot_logger()
 
 
-# Thread-safe singleton for shared resources
 class EmbeddingResources:
     _instance = None
     _lock = threading.Lock()
@@ -35,7 +27,6 @@ class EmbeddingResources:
             
         with self._lock:
             if not self._initialized:
-                # print("Loading embedding resources (one-time initialization)...")
                 # old model "BAAI/bge-base-en-v1.5"
                 self.model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
                 self.index = faiss.read_index("data/embeddings/FAISS_index/rigveda_all_slokas.index")

@@ -1,21 +1,20 @@
 import os
-
-from chat_bot.routes import chat_bot
 from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
 from semantic_search.routes import semantic_search_bp
 from sloka_explorer.routes import veda_bp
+from chat_bot.routes import chat_bot
+
 
 load_dotenv()
 app = Flask(__name__)
 
-# Configure CORS with proper settings for multiple users
 CORS(app, resources={
     r"/api/*": {
         "origins": "*",
         "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type"],
+        "allow_headers": ["Content-Type", "X-API-Key"],
         "expose_headers": ["Content-Type"],
         "supports_credentials": False
     }

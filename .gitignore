@@ -1,4 +1,5 @@
 .env
+*.yml
 chat_bot/extracting_intents.txt
 chat_bot/summarization_prompt.txt
 data/audio
@@ -6,5 +7,4 @@ cache/
 **/*.pyc
 **/__pycache__/
 logs/
-Dockerfile
-docker-compose.yml
+.dockerignore

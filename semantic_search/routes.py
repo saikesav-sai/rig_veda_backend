@@ -6,6 +6,7 @@ from datetime import datetime
 import faiss
 import numpy as np
 from flask import Blueprint, jsonify, request
+from middleware import require_api_key
 from sentence_transformers import SentenceTransformer
 from sloka_explorer.routes import get_sloka
 from utils.logging_utils import get_semantic_search_logger
@@ -35,7 +36,6 @@ class SearchResources:
                 self._load_components()
     
     def _load_components(self):
-        """Load semantic search components using existing infrastructure"""
         try:
             # print("Loading SentenceTransformer model for semantic search...")
             #old model BAAI/bge-base-en-v1.5
@@ -57,11 +57,11 @@ class SearchResources:
                 raise Exception(f"Slokas mapping not found at {slokas_mapping_path}")
             
             self._initialized = True
-            print("✅ Semantic search components loaded successfully!")
-            # print(f"📊 Total indexed slokas: {len(self.slokas_list)}")
+            print("Semantic search components loaded successfully!")
+            # print(f"Total indexed slokas: {len(self.slokas_list)}")
             
         except Exception as e:
-            # print(f"❌ Error loading semantic search components: {e}")
+            # print(f"Error loading semantic search components: {e}")
             self._initialized = False
             raise e
 
@@ -128,6 +128,7 @@ def semantic_search(query, top_k=10):
     return results
 
 @semantic_search_bp.route('/search', methods=['POST'])
+@require_api_key
 def search():
     """Semantic search endpoint"""
     start_time = datetime.now()
@@ -189,6 +190,7 @@ def search():
         return jsonify({'error': error_msg}), 500
 
 @semantic_search_bp.route('/random', methods=['GET'])
+@require_api_key
 def random_verses():
     """Get random verses for exploration"""
     start_time = datetime.now()

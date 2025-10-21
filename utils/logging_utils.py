@@ -14,10 +14,7 @@ LOGTAIL_URL = "https://s1543114.eu-nbg-2.betterstackdata.com/"
 
 
 def get_user_info():
-    """
-    Extract user information from the Flask request context
-    Returns a dict with IP address and user agent only
-    """
+    
     try:
         user_info = {
             "ip_address": request.headers.get('X-Forwarded-For', request.remote_addr),
@@ -33,7 +30,6 @@ def get_user_info():
         }
 
 class RigVedaLogger:
-    """Centralized logging utility for Rig Veda application modules"""
     
     def __init__(self, service_name: str):
         self.service_name = service_name
@@ -321,13 +317,7 @@ class RigVedaLogger:
     def log_user_session(self,
                         session_action: str,
                         session_data: Optional[Dict] = None) -> None:
-        """
-        Log user session events (login, logout, page visit, etc.)
-        
-        Args:
-            session_action: Type of session action (e.g., 'page_visit', 'session_start', 'session_end')
-            session_data: Additional session-specific data
-        """
+       
         log_data = {
             "session_action": session_action,
         }
@@ -351,18 +341,7 @@ class RigVedaLogger:
                        request_size: Optional[int] = None,
                        response_size: Optional[int] = None,
                        error_message: Optional[str] = None) -> None:
-        """
-        Log general API requests with user information
         
-        Args:
-            endpoint: API endpoint path
-            method: HTTP method
-            status_code: Response status code
-            processing_time: Processing time in milliseconds
-            request_size: Size of request payload in bytes
-            response_size: Size of response payload in bytes
-            error_message: Error message if request failed
-        """
         log_data = {
             "endpoint": endpoint,
             "http_method": method,
@@ -391,13 +370,10 @@ class RigVedaLogger:
 
 # Module-specific logger instances
 def get_semantic_search_logger():
-    """Get logger instance for semantic search module"""
     return RigVedaLogger("semantic-search")
 
 def get_sloka_explorer_logger():
-    """Get logger instance for sloka explorer module"""
     return RigVedaLogger("sloka-explorer")
 
 def get_chat_bot_logger():
-    """Get logger instance for chat bot module"""
     return RigVedaLogger("chatbot")
