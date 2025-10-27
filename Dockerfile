@@ -64,4 +64,4 @@ ENV PYTHONUNBUFFERED=1
 ENV FLASK_APP=app.py
 ENV RUN_TUNNEL=false
 
-CMD ["gunicorn", "--worker-class", "gevent", "--workers", "1", "--bind", "0.0.0.0:8008", "app:app"]
+CMD ["gunicorn", "--worker-class", "gevent", "--workers", "3", "--bind", "0.0.0.0:8008", "app:app"]

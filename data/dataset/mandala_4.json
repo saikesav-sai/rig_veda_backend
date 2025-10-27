@@ -83996,6 +83996,660 @@
               "lemma type": "root"
             }
           ]
+        },
+        {
+          "stanza_number": 8,
+          "location": "04.051.08",
+          "sanskrit": "ता आ च॑रन्ति सम॒ना पु॒रस्ता॑त्समा॒नतः॑ सम॒ना प॑प्रथा॒नाः ऋ॒तस्य॑ दे॒वीः सद॑सो बुधा॒ना गवां॒ न सर्गा॑ उ॒षसो॑ जरन्ते",
+          "transliteration": "tā́ ā́ caranti samanā́ purástāt samānátaḥ samanā́ paprathānā́ḥ r̥tásya devī́ḥ sádaso budhānā́ḥ- gávāṃ ná sárgā uṣáso jarante",
+          "transliteration_scheme": "IAST",
+          "translation": "Hither from eastward all at once they travel, from one place spreading in the selfsame manner. Awaking, from the seat of holy Order the Godlike Dawns come nigh like troops of cattle.",
+          "translations": {
+            "griffith": "Hither from eastward all at once they travel, from one place spreading in the selfsame manner. Awaking, from the seat of holy Order the Godlike Dawns come nigh like troops of cattle."
+          },
+          "padas": [
+            {
+              "form": "tā́ḥ",
+              "lemma": "sá- ~ tá-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "pronoun",
+              "position": "intermediate"
+            },
+            {
+              "form": "ā́",
+              "lemma": "ā́",
+              "local particle": "LP",
+              "lemma type": "invariable",
+              "position": "intermediate"
+            },
+            {
+              "form": "caranti",
+              "lemma": "√carⁱ-",
+              "number": "PL",
+              "person": "3",
+              "mood": "IND",
+              "tense": "PRS",
+              "voice": "ACT",
+              "lemma type": "root",
+              "position": "intermediate"
+            },
+            {
+              "form": "samanā́",
+              "lemma": "samanā́",
+              "lemma type": "invariable",
+              "position": "verse final"
+            },
+            {
+              "form": "purástāt",
+              "lemma": "purástāt",
+              "lemma type": "invariable"
+            },
+            {
+              "form": "samānátas",
+              "lemma": "samānátas",
+              "lemma type": "invariable",
+              "position": "intermediate"
+            },
+            {
+              "form": "samanā́",
+              "lemma": "samanā́",
+              "lemma type": "invariable",
+              "position": "verse final"
+            },
+            {
+              "form": "paprathānā́ḥ",
+              "lemma": "√prathⁱ-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "PL",
+              "tense": "PRF",
+              "voice": "MED",
+              "non-finite": "PTCP",
+              "lemma type": "root"
+            },
+            {
+              "form": "r̥tásya",
+              "lemma": "r̥tá-",
+              "case": "GEN",
+              "gender": "N",
+              "number": "SG",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "devī́ḥ",
+              "lemma": "devī́-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "sádasaḥ",
+              "lemma": "sádas-",
+              "case": "ABL",
+              "gender": "N",
+              "number": "SG",
+              "lemma type": "nominal stem",
+              "position": "verse final"
+            },
+            {
+              "form": "budhānā́ḥ",
+              "lemma": "√budh-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "PL",
+              "tense": "AOR",
+              "voice": "MED",
+              "non-finite": "PTCP",
+              "lemma type": "root"
+            },
+            {
+              "form": "gávām",
+              "lemma": "gáv- ~ gó-",
+              "case": "GEN",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "ná",
+              "lemma": "ná",
+              "lemma type": "invariable",
+              "position": "intermediate"
+            },
+            {
+              "form": "sárgāḥ",
+              "lemma": "sárga-",
+              "case": "NOM",
+              "gender": "M",
+              "number": "PL",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "uṣásaḥ",
+              "lemma": "uṣás-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "nominal stem",
+              "position": "verse final"
+            },
+            {
+              "form": "jarante",
+              "lemma": "√gr̥-",
+              "number": "PL",
+              "person": "3",
+              "mood": "IND",
+              "tense": "PRS",
+              "voice": "MED",
+              "lemma type": "root"
+            }
+          ]
+        },
+        {
+          "stanza_number": 9,
+          "location": "04.051.09",
+          "sanskrit": "ता इन्न्वे॒३॒॑व स॑म॒ना स॑मा॒नीरमी॑तवर्णा उ॒षस॑श्चरन्ति गूह॑न्ती॒रभ्व॒मसि॑तं॒ रुश॑द्भिः शु॒क्रास्त॒नूभिः॒ शुच॑यो रुचा॒नाः",
+          "transliteration": "tā́ ín nv èvá samanā́ samānī́r ámītavarṇā uṣásaś caranti gū́hantīr ábhvam ásitaṃ rúśadbhiḥ śukrā́s tanū́bhiḥ śúcayo rucānā́ḥ",
+          "transliteration_scheme": "IAST",
+          "translation": "Thus they go forth with undiminished colours, these Mornings similar, in self-same fashion, Concealing the gigantic might of darkness with radiant bodies bright and pure and shining.",
+          "translations": {
+            "griffith": "Thus they go forth with undiminished colours, these Mornings similar, in self-same fashion, Concealing the gigantic might of darkness with radiant bodies bright and pure and shining."
+          },
+          "padas": [
+            {
+              "form": "tā́ḥ",
+              "lemma": "sá- ~ tá-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "pronoun",
+              "position": "intermediate"
+            },
+            {
+              "form": "ít",
+              "lemma": "íd",
+              "lemma type": "invariable",
+              "position": "intermediate"
+            },
+            {
+              "form": "nú",
+              "lemma": "nú",
+              "lemma type": "invariable",
+              "position": "intermediate"
+            },
+            {
+              "form": "evá",
+              "lemma": "evá",
+              "lemma type": "invariable",
+              "position": "intermediate"
+            },
+            {
+              "form": "samanā́",
+              "lemma": "samanā́",
+              "lemma type": "invariable",
+              "position": "verse final"
+            },
+            {
+              "form": "samānī́ḥ",
+              "lemma": "samāná-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "nominal stem"
+            },
+            {
+              "form": "ámītavarṇāḥ",
+              "lemma": "ámītavarṇa-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "uṣásaḥ",
+              "lemma": "uṣás-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "nominal stem",
+              "position": "verse final"
+            },
+            {
+              "form": "caranti",
+              "lemma": "√carⁱ-",
+              "number": "PL",
+              "person": "3",
+              "mood": "IND",
+              "tense": "PRS",
+              "voice": "ACT",
+              "lemma type": "root"
+            },
+            {
+              "form": "gū́hantīḥ",
+              "lemma": "√guh-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "PL",
+              "tense": "PRS",
+              "voice": "ACT",
+              "non-finite": "PTCP",
+              "lemma type": "root",
+              "position": "intermediate"
+            },
+            {
+              "form": "ábhvam",
+              "lemma": "ábhva-",
+              "case": "ACC",
+              "gender": "N",
+              "number": "SG",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "ásitam",
+              "lemma": "ásita-",
+              "case": "ACC",
+              "gender": "N",
+              "number": "SG",
+              "lemma type": "nominal stem",
+              "position": "verse final"
+            },
+            {
+              "form": "rúśadbhiḥ",
+              "lemma": "rúśant-",
+              "case": "INS",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "nominal stem"
+            },
+            {
+              "form": "śukrā́ḥ",
+              "lemma": "śukrá-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "tanū́bhiḥ",
+              "lemma": "tanū́-",
+              "case": "INS",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "śúcayaḥ",
+              "lemma": "śúci-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "nominal stem",
+              "position": "verse final"
+            },
+            {
+              "form": "rucānā́ḥ",
+              "lemma": "√ruc-",
+              "case": "NOM",
+              "gender": "M",
+              "number": "PL",
+              "tense": "AOR",
+              "voice": "MED",
+              "non-finite": "PTCP",
+              "lemma type": "root"
+            }
+          ]
+        },
+        {
+          "stanza_number": 10,
+          "location": "04.051.10",
+          "sanskrit": "र॒यिं दि॑वो दुहितरो विभा॒तीः प्र॒जाव॑न्तं यच्छता॒स्मासु॑ देवीः स्यो॒नादा वः॑ प्रति॒बुध्य॑मानाः सु॒वीर्य॑स्य॒ पत॑यः स्याम",
+          "transliteration": "rayíṃ divo duhitaro vibhātī́ḥ prajā́vantaṃ yachatāsmā́su devīḥ syonā́d ā́ vaḥ pratibúdhyamānāḥ suvī́ryasya pátayaḥ syāma",
+          "transliteration_scheme": "IAST",
+          "translation": "O Goddesses, O Heaven's refulgent Daughters, bestow upon us wealth with store of children. As from our pleasant place of rest ye rouse us may we be masters of heroic vigour.",
+          "translations": {
+            "griffith": "O Goddesses, O Heaven's refulgent Daughters, bestow upon us wealth with store of children. As from our pleasant place of rest ye rouse us may we be masters of heroic vigour."
+          },
+          "padas": [
+            {
+              "form": "rayím",
+              "lemma": "rayí- ~ rāy-",
+              "case": "ACC",
+              "gender": "M",
+              "number": "SG",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "divaḥ",
+              "lemma": "dyú- ~ div-",
+              "case": "GEN",
+              "gender": "M",
+              "number": "SG",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "duhitaraḥ",
+              "lemma": "duhitár-",
+              "case": "VOC",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "nominal stem",
+              "position": "verse final"
+            },
+            {
+              "form": "vibhātī́ḥ",
+              "lemma": "√bhā-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "PL",
+              "tense": "PRS",
+              "voice": "ACT",
+              "non-finite": "PTCP",
+              "local particle": "LP",
+              "lemma type": "root"
+            },
+            {
+              "form": "prajā́vantam",
+              "lemma": "prajā́vant-",
+              "case": "ACC",
+              "gender": "M",
+              "number": "SG",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "yachata",
+              "lemma": "√yam-",
+              "number": "PL",
+              "person": "2",
+              "mood": "IMP",
+              "tense": "PRS",
+              "voice": "ACT",
+              "lemma type": "root",
+              "position": "intermediate"
+            },
+            {
+              "form": "asmā́su",
+              "lemma": "ahám",
+              "case": "LOC",
+              "number": "PL",
+              "lemma type": "pronoun",
+              "position": "verse final"
+            },
+            {
+              "form": "devīḥ",
+              "lemma": "devī́-",
+              "case": "VOC",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "nominal stem"
+            },
+            {
+              "form": "syonā́t",
+              "lemma": "syoná-",
+              "case": "ABL",
+              "gender": "M/N",
+              "number": "SG",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "ā́",
+              "lemma": "ā́",
+              "local particle": "LP",
+              "lemma type": "invariable",
+              "position": "intermediate"
+            },
+            {
+              "form": "vaḥ",
+              "lemma": "tvám",
+              "case": "ACC",
+              "number": "PL",
+              "lemma type": "pronoun",
+              "position": "verse final"
+            },
+            {
+              "form": "pratibúdhyamānāḥ",
+              "lemma": "√budh-",
+              "case": "NOM",
+              "gender": "M",
+              "number": "PL",
+              "tense": "PRS",
+              "voice": "PASS",
+              "non-finite": "PTCP",
+              "local particle": "LP",
+              "lemma type": "root"
+            },
+            {
+              "form": "suvī́ryasya",
+              "lemma": "suvī́rya-",
+              "case": "GEN",
+              "gender": "N",
+              "number": "SG",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "pátayaḥ",
+              "lemma": "páti-",
+              "case": "NOM",
+              "gender": "M",
+              "number": "PL",
+              "lemma type": "nominal stem",
+              "position": "verse final"
+            },
+            {
+              "form": "syāma",
+              "lemma": "√as- 1",
+              "number": "PL",
+              "person": "1",
+              "mood": "OPT",
+              "tense": "PRS",
+              "voice": "ACT",
+              "lemma type": "root"
+            }
+          ]
+        },
+        {
+          "stanza_number": 11,
+          "location": "04.051.11",
+          "sanskrit": "तद्वो॑ दिवो दुहितरो विभा॒तीरुप॑ ब्रुव उषसो य॒ज्ञके॑तुः व॒यं स्या॑म य॒शसो॒ जने॑षु॒ तद्द्यौश्च॑ ध॒त्तां पृ॑थि॒वी च॑ दे॒वी",
+          "transliteration": "tád vo divo duhitaro vibhātī́r úpa bruva uṣaso yajñáketuḥ vayáṃ syāma yaśáso jáneṣu tád dyaúś ca dhattā́m pr̥thivī́ ca devī́",
+          "transliteration_scheme": "IAST",
+          "translation": "Well-skilled in lore of sacrifice, ye Daughters of Heaven, refulgent Dawns, I thus address you. May we be glorious among the people. May Heaven vouchsafe us this, and Earth the Goddess,",
+          "translations": {
+            "griffith": "Well-skilled in lore of sacrifice, ye Daughters of Heaven, refulgent Dawns, I thus address you. May we be glorious among the people. May Heaven vouchsafe us this, and Earth the Goddess,"
+          },
+          "padas": [
+            {
+              "form": "tát",
+              "lemma": "sá- ~ tá-",
+              "case": "ACC",
+              "gender": "N",
+              "number": "SG",
+              "lemma type": "pronoun",
+              "position": "intermediate"
+            },
+            {
+              "form": "vaḥ",
+              "lemma": "tvám",
+              "case": "ACC",
+              "number": "PL",
+              "lemma type": "pronoun",
+              "position": "intermediate"
+            },
+            {
+              "form": "divaḥ",
+              "lemma": "dyú- ~ div-",
+              "case": "GEN",
+              "gender": "M",
+              "number": "SG",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "duhitaraḥ",
+              "lemma": "duhitár-",
+              "case": "VOC",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "nominal stem",
+              "position": "verse final"
+            },
+            {
+              "form": "vibhātī́ḥ",
+              "lemma": "√bhā-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "PL",
+              "tense": "PRS",
+              "voice": "ACT",
+              "non-finite": "PTCP",
+              "local particle": "LP",
+              "lemma type": "root"
+            },
+            {
+              "form": "úpa",
+              "lemma": "úpa",
+              "local particle": "LP",
+              "lemma type": "invariable",
+              "position": "intermediate"
+            },
+            {
+              "form": "bruve",
+              "lemma": "√brū-",
+              "number": "SG",
+              "person": "1",
+              "mood": "IND",
+              "tense": "PRS",
+              "voice": "MED",
+              "lemma type": "root",
+              "position": "intermediate"
+            },
+            {
+              "form": "uṣasaḥ",
+              "lemma": "uṣás-",
+              "case": "VOC",
+              "gender": "F",
+              "number": "PL",
+              "lemma type": "nominal stem",
+              "position": "verse final"
+            },
+            {
+              "form": "yajñáketuḥ",
+              "lemma": "yajñáketu-",
+              "case": "NOM",
+              "gender": "M",
+              "number": "SG",
+              "lemma type": "nominal stem"
+            },
+            {
+              "form": "vayám",
+              "lemma": "ahám",
+              "case": "NOM",
+              "number": "PL",
+              "lemma type": "pronoun",
+              "position": "intermediate"
+            },
+            {
+              "form": "syāma",
+              "lemma": "√as- 1",
+              "number": "PL",
+              "person": "1",
+              "mood": "OPT",
+              "tense": "PRS",
+              "voice": "ACT",
+              "lemma type": "root",
+              "position": "intermediate"
+            },
+            {
+              "form": "yaśásaḥ",
+              "lemma": "yaśás-",
+              "case": "NOM",
+              "gender": "M",
+              "number": "PL",
+              "lemma type": "nominal stem",
+              "position": "verse final"
+            },
+            {
+              "form": "jáneṣu",
+              "lemma": "jána-",
+              "case": "LOC",
+              "gender": "M",
+              "number": "PL",
+              "lemma type": "nominal stem"
+            },
+            {
+              "form": "tát",
+              "lemma": "sá- ~ tá-",
+              "case": "ACC",
+              "gender": "N",
+              "number": "SG",
+              "lemma type": "pronoun",
+              "position": "intermediate"
+            },
+            {
+              "form": "dyaúḥ",
+              "lemma": "dyú- ~ div-",
+              "case": "NOM",
+              "gender": "M",
+              "number": "SG",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "ca",
+              "lemma": "ca",
+              "lemma type": "invariable",
+              "position": "intermediate"
+            },
+            {
+              "form": "dhattā́m",
+              "lemma": "√dhā- 1",
+              "number": "DU",
+              "person": "3",
+              "mood": "IMP",
+              "tense": "PRS",
+              "voice": "ACT",
+              "lemma type": "root",
+              "position": "intermediate"
+            },
+            {
+              "form": "pr̥thivī́",
+              "lemma": "pr̥thivī́-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "SG",
+              "lemma type": "nominal stem",
+              "position": "intermediate"
+            },
+            {
+              "form": "ca",
+              "lemma": "ca",
+              "lemma type": "invariable",
+              "position": "verse final"
+            },
+            {
+              "form": "devī́",
+              "lemma": "devī́-",
+              "case": "NOM",
+              "gender": "F",
+              "number": "SG",
+              "lemma type": "nominal stem"
+            }
+          ]
         }
       ]
     },
