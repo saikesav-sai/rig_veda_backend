@@ -1,7 +1,6 @@
 FROM python:3.11-slim as builder
 
 WORKDIR /app
-
 ENV PATH=/root/.local/bin:$PATH
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -11,27 +10,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-
-# Install PyTorch CPU version first (much smaller than GPU version)
 RUN pip install --no-cache-dir --user -r requirements.txt
+
 
 FROM python:3.11-slim
 
 WORKDIR /app
+ENV PATH=/root/.local/bin:$PATH
 
 COPY --from=builder /root/.local /root/.local
-
-# Copy application code
 COPY . .
-
-ENV PATH=/root/.local/bin:$PATH
 
 RUN mkdir -p logs
 
-EXPOSE 8008
-
 ENV PYTHONUNBUFFERED=1
 ENV FLASK_APP=app.py
-ENV RUN_TUNNEL=false
 
-CMD ["gunicorn", "--worker-class", "gevent", "--workers", "3", "--bind", "0.0.0.0:8008", "app:app"]
+CMD ["sh", "-c", "gunicorn app:app --worker-class gevent --workers 3 --bind 0.0.0.0:${PORT}"]
