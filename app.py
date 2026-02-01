@@ -2,9 +2,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
-from semantic_search.routes import semantic_search_bp
 from sloka_explorer.routes import veda_bp
-from chat_bot.routes import chat_bot
 
 
 load_dotenv()
@@ -26,8 +24,6 @@ app.config['THREADED'] = True
 
 # Register all blueprints
 app.register_blueprint(veda_bp)
-app.register_blueprint(chat_bot)
-app.register_blueprint(semantic_search_bp)
 
 @app.route('/')
 def home():
