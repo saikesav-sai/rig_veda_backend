@@ -21,8 +21,6 @@ WORKDIR /app
 
 COPY --from=builder /root/.local /root/.local
 
-COPY --from=builder /root/.cache /root/.cache
-
 # Copy application code
 COPY . .
 
